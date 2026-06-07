@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Shoot — Static Lens Photography</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-black: #1A1A1A;
+            --primary-gold: #D4AF37;
+            --secondary-white: #FFFFFF;
+            --accent-grey: #4A4A4A;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--primary-black);
+            color: var(--secondary-white);
+            line-height: 1.6;
+        }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
+        .cinematic-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            text-transform: none;
+            color: var(--primary-gold);
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header {
+            background: rgba(26,26,26,0.95);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--primary-gold); font-size: 1.3rem; }
+        .logo span { color: var(--secondary-white); }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 30px; }
+        nav ul li a { color: var(--secondary-white); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav ul li a:hover, nav ul li a.active { color: var(--primary-gold); }
+        a { text-decoration: none; color: inherit; }
+
+        /* Main */
+        .booking-page { padding: 150px 0 80px; }
+        .booking-header { text-align: center; margin-bottom: 40px; }
+        .booking-header h1 { font-size: 2.8rem; margin-bottom: 15px; }
+        .booking-header p { color: #bbb; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .booking-form {
+            background: #1A1A1A;
+            border: 1px solid var(--accent-grey);
+            border-radius: 8px;
+            padding: 50px;
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 25px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-gold);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #111;
+            border: 1px solid var(--accent-grey);
+            border-radius: 4px;
+            color: var(--secondary-white);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+        .form-group select { cursor: pointer; }
+        .form-group select option { background: #1A1A1A; color: #fff; }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+
+        .section-heading {
+            color: var(--primary-gold);
+            margin: 35px 0 20px;
+            border-bottom: 2px solid var(--primary-gold);
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .checkbox-group { margin-bottom: 25px; }
+        .checkbox-group label {
+            display: flex; align-items: flex-start; gap: 12px;
+            color: #bbb; font-size: 0.95rem; margin-bottom: 12px; cursor: pointer;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px; height: 18px; margin-top: 3px; accent-color: var(--primary-gold); flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary-gold);
+            color: var(--primary-black);
+            font-weight: bold;
+            border-radius: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .btn:hover { background: var(--secondary-white); transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .form-submit { margin-top: 30px; }
+        .form-submit .btn { width: 100%; padding: 18px; }
+        .form-note { color: #666; font-size: 0.85rem; text-align: center; margin-top: 15px; }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        .success-message h2 { color: var(--primary-gold); font-size: 2rem; margin-bottom: 20px; }
+        .success-message p { color: #bbb; font-size: 1.2rem; margin-bottom: 10px; }
+        .success-message .btn { margin-top: 30px; }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            background: var(--primary-black);
+            border-top: 1px solid #333;
+        }
+        footer p { color: #666; margin-bottom: 10px; }
+        .social-links a { margin: 0 15px; color: var(--primary-gold); font-weight: bold; }
+
+        @media (max-width: 768px) {
+            .booking-page { padding: 130px 0 60px; }
+            .booking-form { padding: 30px 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .booking-header h1 { font-size: 2rem; }
+            nav { flex-direction: column; }
+            nav ul { margin-top: 10px; }
+            nav ul li { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">STATIC<span>LENS</span></div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/#services">Packages</a></li>
+                <li><a href="/#portfolio">Portfolio</a></li>
+                <li><a href="#" class="active">Book Now</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="booking-page">
+            <div class="container">
+                <div class="booking-header">
+                    <h1 class="cinematic-title">Book Your Shoot</h1>
+                    <p>Fill out the form below and we'll confirm your booking within 24 hours. A 30% non-refundable deposit secures your date.</p>
+                </div>
+
+                <form id="bookingForm" class="booking-form" action="/api/book" method="POST">
+                    <h3 class="section-heading">Your Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="e.g. Thando Mokoena">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="e.g. 071 234 5678">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="e.g. thando@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="instagram">Instagram / TikTok Handle</label>
+                            <input type="text" id="instagram" name="instagram" placeholder="@yourhandle">
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <label for="referral">How did you hear about us?</label>
+                        <select id="referral" name="referral">
+                            <option value="">Select...</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="friend">Friend / Family</option>
+                            <option value="school">School / Event</option>
+                            <option value="google">Google Search</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <h3 class="section-heading">Shoot Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shootType">Shoot Type *</label>
+                            <select id="shootType" name="shootType" required>
+                                <option value="">Select shoot type...</option>
+                                <option value="individual">Individual Portrait</option>
+                                <option value="couple">Couple / Engagement</option>
+                                <option value="family">Family</option>
+                                <option value="graduation">Graduation</option>
+                                <option value="matric">Matric Ball</option>
+                                <option value="event">Event</option>
+                                <option value="wedding">Wedding</option>
+                                <option value="business">Small Business / Product</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="package">Package *</label>
+                            <select id="package" name="package" required>
+                                <option value="">Select shoot type first</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Preferred Date *</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Preferred Time</label>
+                            <select id="time" name="time">
+                                <option value="">Flexible</option>
+                                <option value="morning">Morning (6–9am)</option>
+                                <option value="midmorning">Mid-Morning (9–11am)</option>
+                                <option value="afternoon">Afternoon (2–4pm)</option>
+                                <option value="golden">Golden Hour (4–6pm)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <label for="location">Location(s) *</label>
+                        <input type="text" id="location" name="location" required placeholder="e.g. Zoo Lake, Johannesburg">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="numPeople">Number of People</label>
+                            <input type="number" id="numPeople" name="numPeople" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Special Requests / Themes</label>
+                            <textarea id="notes" name="notes" placeholder="Tell us about your vision..."></textarea>
+                        </div>
+                    </div>
+
+                    <h3 class="section-heading">Add-Ons (Optional)</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fastDelivery">Fast Delivery (24hrs) — R150</label>
+                            <select id="fastDelivery" name="fastDelivery">
+                                <option value="0">No</option>
+                                <option value="1">Yes (+R150)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prints">Printed Photos</label>
+                            <select id="prints" name="prints">
+                                <option value="none">None</option>
+                                <option value="a5_1">1 x A5 Print (R40)</option>
+                                <option value="a5_2">2 x A5 Prints (R80)</option>
+                                <option value="a5_5">5 x A5 Prints (R200)</option>
+                                <option value="a4_1">1 x A4 Print (R80)</option>
+                                <option value="a4_2">2 x A4 Prints (R160)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="album">Photo Album</label>
+                            <select id="album" name="album">
+                                <option value="none">None</option>
+                                <option value="small">50-pg / 100 photos (R850)</option>
+                                <option value="large">50-pg / 200 photos (R1 350)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="flashDrive">Flash Drive — R100</label>
+                            <select id="flashDrive" name="flashDrive">
+                                <option value="0">No</option>
+                                <option value="1">Yes (+R100)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="section-heading">Terms & Conditions</h3>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" id="termDeposit" required><span>I understand a <strong>30% non-refundable deposit</strong> is required to secure my booking.</span></label>
+                        <label><input type="checkbox" id="termBalance" required><span>I understand the <strong>balance is due before or on the shoot day</strong>.</span></label>
+                        <label><input type="checkbox" id="termDelivery" required><span>I understand photos will be delivered within <strong>3–5 working days</strong> (or 24 hrs with fast delivery).</span></label>
+                        <label><input type="checkbox" id="termPayment" required><span>I understand <strong>photos will only be released after full payment</strong>.</span></label>
+                        <label><input type="checkbox" id="termMarketing" required><span>I agree that Static Lens Photography may use the photos for <strong>portfolio and marketing purposes</strong>.</span></label>
+                    </div>
+
+                    <div class="form-submit">
+                        <button type="submit" class="btn" id="submitBtn">Submit Booking Request</button>
+                    </div>
+                    <p class="form-note">We'll respond within 24 hours to confirm availability and send deposit payment details.</p>
+                </form>
+
+                <div id="successMessage" class="success-message">
+                    <h2>🎉 Booking Request Sent!</h2>
+                    <p>Thank you! We've received your booking request.</p>
+                    <p>We'll get back to you within <strong>24 hours</strong> to confirm your date.</p>
+                    <p style="margin-top:20px; color:#D4AF37;">📸 Keep an eye on your inbox and WhatsApp!</p>
+                    <a href="/" class="btn">Back to Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Static Lens Photography. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://instagram.com/staticlens.za">Instagram</a>
+                <a href="https://tiktok.com/@staticlens.za">TikTok</a>
+                <a href="https://wa.me/27123456789">WhatsApp</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set min date to tomorrow
+        const dateInput = document.getElementById('date');
+        const t = new Date(); t.setDate(t.getDate() + 1);
+        dateInput.min = t.toISOString().split('T')[0];
+
+        // Package options
+        const packages = {
+            individual: [
+                {v:'mini',l:'Mini Shoot — R250 (30min, 20 photos)'},
+                {v:'basic',l:'Basic — R500 (1hr, 40 photos)'},
+                {v:'standard',l:'Standard — R650 (2hrs, 50 photos)'},
+                {v:'premium',l:'Premium — R850 (3hrs, 70 photos)'}
+            ],
+            couple: [
+                {v:'basic_couple',l:'Basic Couple — R450 (1hr, 25 photos)'},
+                {v:'romantic',l:'Romantic — R650 (1.5hrs, 45 photos)'},
+                {v:'premium_couple',l:'Premium Couple — R850 (2hrs, 60 photos)'}
+            ],
+            family: [
+                {v:'small_family',l:'Small Family — R450 (1hr, 25 photos)'},
+                {v:'standard_family',l:'Standard Family — R600 (1.5hrs, 40 photos)'},
+                {v:'large_family',l:'Large Family — R750 (2hrs, 60 photos)'}
+            ],
+            graduation: [
+                {v:'basic_grad',l:'Basic Graduation — R350 (30-45min, 20 photos)'},
+                {v:'standard_grad',l:'Standard Graduation — R450 (1hr, 35 photos)'},
+                {v:'premium_grad',l:'Premium Graduation — R600 (1.5hrs, 45 photos)'}
+            ],
+            matric: [
+                {v:'basic_matric',l:'Basic Matric Ball — R850 (1-2hrs, 60 photos)'},
+                {v:'standard_matric',l:'Standard Matric Ball — R1 200 (3hrs, 100 photos)'},
+                {v:'premium_matric',l:'Premium Matric Ball — R1 500 (Unlimited, 150 photos)'}
+            ],
+            event: [
+                {v:'small_event',l:'Small Event — R850 (1hr, 40 photos)'},
+                {v:'medium_event',l:'Medium Event — R1 200 (2hrs, 70 photos)'},
+                {v:'large_event',l:'Large Event — R1 500 (4hrs, 120 photos)'}
+            ],
+            wedding: [
+                {v:'basic_wedding',l:'Basic Wedding — R2 500 (3hrs, 150 photos)'},
+                {v:'standard_wedding',l:'Standard Wedding — R3 500 (6hrs, 300 photos)'},
+                {v:'premium_wedding',l:'Premium Wedding — R4 500 (8hrs, 400 photos)'}
+            ],
+            business: [
+                {v:'basic_biz',l:'Basic — R500 (1hr, 20 photos)'},
+                {v:'standard_biz',l:'Standard — R800 (2hrs, 40 photos)'},
+                {v:'premium_biz',l:'Premium — R1 200 (3hrs, 60 photos)'}
+            ]
+        };
+
+        const st = document.getElementById('shootType');
+        const pkg = document.getElementById('package');
+        st.addEventListener('change', function() {
+            pkg.innerHTML = '<option value="">Select package...</option>';
+            if (this.value && packages[this.value]) {
+                packages[this.value].forEach(p => {
+                    const o = document.createElement('option');
+                    o.value = p.v; o.textContent = p.l;
+                    pkg.appendChild(o);
+                });
+                pkg.disabled = false;
+            } else { pkg.disabled = true; }
+        });
+
+        // Form submission
+        const form = document.getElementById('bookingForm');
+        const btn = document.getElementById('submitBtn');
+        const success = document.getElementById('successMessage');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            btn.disabled = true; btn.textContent = 'Submitting...';
+            const data = {};
+            ['fullName','phone','email','instagram','referral','shootType','package','date','time','location','numPeople','notes','fastDelivery','prints','album','flashDrive'].forEach(f => {
+                data[f] = document.getElementById(f).value;
+            });
+            try {
+                const r = await fetch('/api/book', {
+                    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+                });
+                if (!r.ok) throw new Error();
+            } catch(e) { /* fallback */ }
+            form.style.display = 'none';
+            success.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
